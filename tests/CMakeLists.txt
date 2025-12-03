@@ -1,4 +1,3 @@
-# Descarga GoogleTest automáticamente
 include(FetchContent)
 FetchContent_Declare(
     googletest
