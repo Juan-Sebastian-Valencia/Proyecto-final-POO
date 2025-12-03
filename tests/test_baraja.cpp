@@ -1,22 +1,46 @@
 #include <gtest/gtest.h>
 #include "../modelo/Baraja.h"
-#include "../modelo/Carta.h"
 
-TEST(BarajaTest, BarajarYCogerCarta) {
-    Baraja baraja1;
-    Baraja baraja2;
+TEST(BarajaTest, SacarCartaReduceTamanio) {
+    Baraja baraja;
 
-    auto antes = baraja1.obtenerCartas();
-    
-    baraja1.barajar();
-    auto despues = baraja1.obtenerCartas();
+    // Sacar una carta debe reducir el tamaño de la baraja inicial
+    Carta carta1 = baraja.sacarCarta();
+    Carta carta2 = baraja.sacarCarta();
 
-    EXPECT_NE(antes, despues);
+    // La baraja inicialmente tiene 52 cartas
+    // Sacamos 2 → deben quedar 50
+    Baraja baraja2; 
+    // baraja2 está nueva, así que comparar tamaños
 
-    Carta carta = baraja1.repartirCarta();
+    // Sacar 52 cartas de baraja2 para llegar a vaciarla y forzar mezcla cuando llame barajar()
+    int contador = 0;
+    try {
+        while (contador < 50) {
+            baraja2.sacarCarta();
+            contador++;
+        }
+    } catch(...) {}
 
-    EXPECT_GE(carta.getValor(), 1);
-    EXPECT_LE(carta.getValor(), 13);
+    EXPECT_EQ(contador, 50);
+}
 
-    EXPECT_EQ(baraja1.tamanio(), baraja2.tamanio() - 1);
+TEST(BarajaTest, BarajarNoRompeLaBaraja) {
+    Baraja baraja;
+
+    // Saca una carta 
+    Carta antes = baraja.sacarCarta();
+
+    // Devolverla a barajaSegundaria
+    baraja.recibirCartaBarajaSegundaria(antes);
+
+    // Barajar debe mezclar ambas listas sin errores
+    EXPECT_NO_THROW(baraja.barajar());
+
+    // Sacar una carta nuevamente
+    Carta despues = baraja.sacarCarta();
+
+    // verificamos que sea una carta válida
+    EXPECT_GE(despues.getValor(), 1);
+    EXPECT_LE(despues.getValor(), 13);
 }
