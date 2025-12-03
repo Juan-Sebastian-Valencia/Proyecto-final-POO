@@ -58,7 +58,7 @@ void VistaConsola::mostrarJugador(Jugador& jugador) const {
     mostrarPuntaje(jugador);
 }
 
-void VistaConsola::mostrarCrupier(Crupier& crupier, bool mostrarSegundaCarta) const {
+void VistaConsola::mostrarJugador(Crupier& crupier, bool mostrarSegundaCarta) const {
     std::cout << "\n=== Crupier ===" << std::endl;
     const std::vector<Carta> mano = crupier.getMano();
     for (int i = 0; i < mano.size(); ++i) {

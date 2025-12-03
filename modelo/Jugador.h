@@ -22,7 +22,7 @@ class Jugador {
         void setPuntuacion(const int puntuacion);
         void doblarApuesta();
         void recibirCarta(const Carta& carta);
-        void calcularPuntuacion() const;
+        int calcularPuntuacion();
         Carta sacarCarta();
 };
 
